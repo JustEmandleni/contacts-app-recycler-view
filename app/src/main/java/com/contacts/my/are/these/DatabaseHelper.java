@@ -2,10 +2,13 @@ package com.contacts.my.are.these;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -37,5 +40,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long id = database.insert(Constants.TABLE_NAME, null, contentValues);
         database.close();
         return id;
+    }
+
+    public ArrayList<Model> getData (String orderBy){
+        ArrayList<Model> contactList = new ArrayList<>();
+
+        String sqlSelectAllQuery = "SELECT * FROM " + Constants.TABLE_NAME + " ORDER BY " + orderBy; //missing ; ?
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery(sqlSelectAllQuery, null);
+
+        if(cursor.moveToNext()){
+            do {
+                Model model = new Model(
+                        "" + cursor.getInt(cursor.getColumnIndex(Constants.C_ID)),
+                        "" + cursor.getString(cursor.getColumnIndex(Constants.C_IMAGE)),
+                        "" + cursor.getString(cursor.getColumnIndex(Constants.C_NAME)),
+                        "" + cursor.getString(cursor.getColumnIndex(Constants.C_PHONE)),
+                        "" + cursor.getString(cursor.getColumnIndex(Constants.C_COMPANY)),
+                        "" + cursor.getString(cursor.getColumnIndex(Constants.C_ADD_TIMESTAMP)),
+                        "" + cursor.getString(cursor.getColumnIndex(Constants.C_UPDATE_TIMESTAMP))
+                );
+                contactList.add(model);
+            }
+            while (cursor.moveToNext());
+        }
+
+        return contactList;
     }
 }

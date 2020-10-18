@@ -100,7 +100,8 @@ public class AddContactActivity extends AppCompatActivity {
                 "" + timestamp,
                 "" + timestamp
         );
-        Toast.makeText(this, "Success!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Saved Successfully!", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(AddContactActivity.this, MainActivity.class));
     }
 
     @Override

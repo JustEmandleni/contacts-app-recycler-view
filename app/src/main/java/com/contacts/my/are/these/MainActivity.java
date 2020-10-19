@@ -1,18 +1,20 @@
 package com.contacts.my.are.these;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
-    FloatingActionButton addContact;
+    FloatingActionButton actionButtonAdd;
     ActionBar actionBar;
     RecyclerView mRecView;
     DatabaseHelper databaseHelper;
@@ -30,16 +32,22 @@ public class MainActivity extends AppCompatActivity {
         
         populate();
 
-        addContact = findViewById(R.id.floatingActionButton);
-        addContact.setOnClickListener(new View.OnClickListener() {
+        actionButtonAdd = findViewById(R.id.floatingActionButton);
+        actionButtonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, AddContactActivity.class));
+                //startActivity(new Intent(MainActivity.this, AddContactActivity.class));
+                Intent intent = new Intent(MainActivity.this, AddContactActivity.class);
+                intent.putExtra("editMode", false);
+                startActivity(intent);
             }
         });
     }
 
     private void populate() {
+        RecyclerView.LayoutManager layoutManager;
+        layoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
+        mRecView.setLayoutManager(layoutManager);
         Adapter adapter = new Adapter(MainActivity.this, databaseHelper.getData(Constants.C_ADD_TIMESTAMP + " DESC"));
         mRecView.setAdapter(adapter);
     }

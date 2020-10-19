@@ -42,6 +42,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return id;
     }
 
+    public void updateInfo (String id, String name, String mobilePhone, String company, String image, String addTimestamp, String updateTimestamp){
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Constants.C_NAME, name);
+        contentValues.put(Constants.C_PHONE, mobilePhone);
+        contentValues.put(Constants.C_COMPANY, company);
+        contentValues.put(Constants.C_IMAGE, image);
+        contentValues.put(Constants.C_ADD_TIMESTAMP, addTimestamp);
+        contentValues.put(Constants.C_UPDATE_TIMESTAMP, updateTimestamp);
+
+        //long id = database.insert(Constants.TABLE_NAME, null, contentValues);
+        database.update(Constants.TABLE_NAME, contentValues, Constants.C_ID+ " = ?", new String[]{id});
+        database.close();
+    }
+
     public ArrayList<Model> getData (String orderBy){
         ArrayList<Model> contactList = new ArrayList<>();
 

@@ -25,30 +25,29 @@ import androidx.core.content.ContextCompat;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-public class AddContactActivity extends AppCompatActivity {
-
-    private ImageView mImage;
-    private EditText mFullName, mPhone, mCompany;
-    private Button mSaveButton;
-    ActionBar actionBar;
+public class UpdateContactActivity extends AppCompatActivity {
 
     private static final int CAMERA_REQUEST_CODE = 100;
     private static final int STORAGE_REQUEST_CODE = 101;
     private static final int IMAGE_PICK_CAMERA_CODE = 102;
     private static final int IMAGE_PICK_GALLERY_CODE = 103;
-
+    ActionBar actionBar;
+    private ImageView mImage;
+    private EditText mFullName, mPhone, mCompany;
+    private Button mSaveButton;
     private String[] cameraPermissions;
     private String[] storagePermissions;
 
     private Uri imageUri;
 
-    private String name, phone, company, timestamp;
+    private String id, name, phone, company, addtimestamp, updatetimestamp;
+    private boolean editMode = false;
     private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_contact);
+        setContentView(R.layout.activity_update_contact);
 
         mImage = findViewById(R.id.uploadImageView);
         mImage.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +61,38 @@ public class AddContactActivity extends AppCompatActivity {
         mPhone = findViewById(R.id.mobilePhoneEditText);
         mCompany = findViewById(R.id.companyEeditText);
         mSaveButton = findViewById(R.id.saveButton);
+
+        Intent intent = getIntent();
+        editMode = intent.getBooleanExtra("editMode", editMode);
+        id = intent.getStringExtra("Id");
+        imageUri = Uri.parse(intent.getStringExtra("Image"));
+        name = intent.getStringExtra("Name");
+        phone = intent.getStringExtra("Phone");
+        company = intent.getStringExtra("Company");
+        addtimestamp = intent.getStringExtra("AddTimeStamp");
+        updatetimestamp = intent.getStringExtra("UpdateTimeStamp");
+
+        if(editMode) {
+            actionBar.setTitle("Edit Contact");
+
+            editMode = intent.getBooleanExtra("editMode", editMode);
+            id = intent.getStringExtra("Id");
+            imageUri = Uri.parse(intent.getStringExtra("Image"));
+            name = intent.getStringExtra("Name");
+            phone = intent.getStringExtra("Phone");
+            company = intent.getStringExtra("Company");
+            addtimestamp = intent.getStringExtra("AddTimeStamp");
+            updatetimestamp = intent.getStringExtra("UpdateTimeStamp");
+
+            mFullName.setText(name);
+            mPhone.setText(phone);
+            mCompany.setText(company);
+            if (imageUri.toString().equals("null"))
+                mImage.setImageResource(R.drawable.ic_upload_image);
+            else mImage.setImageURI(imageUri);
+        } else {
+            actionBar.setTitle("Add Contact");
+        }
 
         cameraPermissions = new String[]{
                 Manifest.permission.CAMERA,
@@ -78,13 +109,13 @@ public class AddContactActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //commit changes
                 retrieveValues();
-                Toast.makeText(AddContactActivity.this, "Saved", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(AddContactActivity.this, MainActivity.class));
+                Toast.makeText(UpdateContactActivity.this, "Updated", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(UpdateContactActivity.this, MainActivity.class));
             }
         });
 
+
         actionBar = getSupportActionBar();
-        actionBar.setTitle("Add Contact");
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
@@ -93,15 +124,32 @@ public class AddContactActivity extends AppCompatActivity {
         name = "" + mFullName.getText().toString().trim();
         phone = "" + mPhone.getText().toString().trim();
         company = "" + mCompany.getText().toString().trim();
-        timestamp = "" + System.currentTimeMillis();
-        databaseHelper.insertInfo(
-                "" + name,
-                "" + phone,
-                "" + company,
-                "" + imageUri,
-                "" + timestamp,
-                "" + timestamp
-        );
+
+        if(editMode)
+        {
+            String newUpdateTime = ""+System.currentTimeMillis();
+            databaseHelper.updateInfo(
+                    "" + id,
+                    ""+ name,
+                    "" + phone,
+                    "" + company,
+                    "" + imageUri,
+                    "" + addtimestamp,
+                    "" + newUpdateTime);
+        }
+        else
+        {
+            String timeStamp = "" + System.currentTimeMillis();
+
+            databaseHelper.insertInfo(
+                    "" + name,
+                    "" + phone,
+                    "" + company,
+                    "" + imageUri,
+                    "" + timeStamp,
+                    "" + timeStamp
+            );
+        }
     }
 
     @Override
@@ -151,10 +199,10 @@ public class AddContactActivity extends AppCompatActivity {
 
     private boolean checkCameraPermission(){
         return ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                    == PackageManager.PERMISSION_GRANTED
-                                                        &&
+                == PackageManager.PERMISSION_GRANTED
+                &&
                 ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED;
+                        == PackageManager.PERMISSION_GRANTED;
     }
 
     private void requestStoragePermission(){

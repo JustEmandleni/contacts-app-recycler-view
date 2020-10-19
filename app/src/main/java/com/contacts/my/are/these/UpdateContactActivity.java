@@ -27,20 +27,21 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 public class UpdateContactActivity extends AppCompatActivity {
 
-    private static final int CAMERA_REQUEST_CODE = 100;
-    private static final int STORAGE_REQUEST_CODE = 101;
-    private static final int IMAGE_PICK_CAMERA_CODE = 102;
-    private static final int IMAGE_PICK_GALLERY_CODE = 103;
     ActionBar actionBar;
     private ImageView mImage;
     private EditText mFullName, mPhone, mCompany;
     private Button mSaveButton;
+
+    private static final int CAMERA_REQUEST_CODE = 100;
+    private static final int STORAGE_REQUEST_CODE = 101;
+    private static final int IMAGE_PICK_CAMERA_CODE = 102;
+    private static final int IMAGE_PICK_GALLERY_CODE = 103;
+
     private String[] cameraPermissions;
     private String[] storagePermissions;
 
     private Uri imageUri;
-
-    private String id, name, phone, company, addtimestamp, updatetimestamp;
+    private String id, name, phone, company, addTimeStamp, updateTimeStamp;
     private boolean editMode = false;
     private DatabaseHelper databaseHelper;
 
@@ -49,7 +50,7 @@ public class UpdateContactActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_contact);
 
-        mImage = findViewById(R.id.uploadImageView);
+        mImage = findViewById(R.id.uImageView);
         mImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,40 +58,46 @@ public class UpdateContactActivity extends AppCompatActivity {
                 imageChooser();
             }
         });
-        mFullName = findViewById(R.id.fullNameEditText);
-        mPhone = findViewById(R.id.mobilePhoneEditText);
-        mCompany = findViewById(R.id.companyEeditText);
-        mSaveButton = findViewById(R.id.saveButton);
+        mFullName = findViewById(R.id.fNameEditText);
+        mPhone = findViewById(R.id.mPhoneEditText);
+        mCompany = findViewById(R.id.cEditText);
+        mSaveButton = findViewById(R.id.sButton);
 
         Intent intent = getIntent();
         editMode = intent.getBooleanExtra("editMode", editMode);
-        id = intent.getStringExtra("Id");
-        imageUri = Uri.parse(intent.getStringExtra("Image"));
-        name = intent.getStringExtra("Name");
-        phone = intent.getStringExtra("Phone");
-        company = intent.getStringExtra("Company");
-        addtimestamp = intent.getStringExtra("AddTimeStamp");
-        updatetimestamp = intent.getStringExtra("UpdateTimeStamp");
+        id = intent.getStringExtra("ID");
+        imageUri = Uri.parse(intent.getStringExtra("IMAGE"));
+        name = intent.getStringExtra("NAME");
+        phone = intent.getStringExtra("PHONE");
+        company = intent.getStringExtra("COMPANY");
+        addTimeStamp = intent.getStringExtra("ADDTIMESTAMP");
+        updateTimeStamp = intent.getStringExtra("UPDATETIMESTAMP");
 
         if(editMode) {
             actionBar.setTitle("Edit Contact");
 
             editMode = intent.getBooleanExtra("editMode", editMode);
-            id = intent.getStringExtra("Id");
-            imageUri = Uri.parse(intent.getStringExtra("Image"));
-            name = intent.getStringExtra("Name");
-            phone = intent.getStringExtra("Phone");
-            company = intent.getStringExtra("Company");
-            addtimestamp = intent.getStringExtra("AddTimeStamp");
-            updatetimestamp = intent.getStringExtra("UpdateTimeStamp");
+            id = intent.getStringExtra("ID");
+            imageUri = Uri.parse(intent.getStringExtra("IMAGE"));
+            name = intent.getStringExtra("NAME");
+            phone = intent.getStringExtra("PHONE");
+            company = intent.getStringExtra("COMPANY");
+            addTimeStamp = intent.getStringExtra("ADDTIMESTAMP");
+            updateTimeStamp = intent.getStringExtra("UPDATETIMESTAMP");
 
             mFullName.setText(name);
             mPhone.setText(phone);
             mCompany.setText(company);
-            if (imageUri.toString().equals("null"))
+            if (imageUri.toString().equals("null")) {
                 mImage.setImageResource(R.drawable.ic_upload_image);
-            else mImage.setImageURI(imageUri);
-        } else {
+            }
+            else
+            {
+                mImage.setImageURI(imageUri);
+            }
+
+        }
+        else {
             actionBar.setTitle("Add Contact");
         }
 
@@ -109,11 +116,10 @@ public class UpdateContactActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //commit changes
                 retrieveValues();
-                Toast.makeText(UpdateContactActivity.this, "Updated", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(UpdateContactActivity.this, MainActivity.class));
+                Toast.makeText(UpdateContactActivity.this, "Saved", Toast.LENGTH_SHORT).show();
             }
         });
-
 
         actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
@@ -125,20 +131,21 @@ public class UpdateContactActivity extends AppCompatActivity {
         phone = "" + mPhone.getText().toString().trim();
         company = "" + mCompany.getText().toString().trim();
 
-        if(editMode)
-        {
-            String newUpdateTime = ""+System.currentTimeMillis();
+        if(editMode) {
+            String newUpdateTime = "" + System.currentTimeMillis();
+
             databaseHelper.updateInfo(
-                    "" + id,
-                    ""+ name,
-                    "" + phone,
-                    "" + company,
-                    "" + imageUri,
-                    "" + addtimestamp,
-                    "" + newUpdateTime);
+                    ""+id,
+                    ""+name,
+                    ""+phone,
+                    ""+company,
+                    ""+imageUri,
+                    ""+addTimeStamp,
+                    ""+newUpdateTime
+            );
         }
-        else
-        {
+        else {
+
             String timeStamp = "" + System.currentTimeMillis();
 
             databaseHelper.insertInfo(
@@ -150,6 +157,7 @@ public class UpdateContactActivity extends AppCompatActivity {
                     "" + timeStamp
             );
         }
+
     }
 
     @Override

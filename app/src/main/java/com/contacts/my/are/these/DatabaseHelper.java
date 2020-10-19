@@ -28,7 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long insertInfo (String name, String mobilePhone, String company, String image, String addTimestamp, String updateTimestamp){
+    public void insertInfo (String name, String mobilePhone, String company, String image, String addTimestamp, String updateTimestamp){
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Constants.C_NAME, name);
@@ -37,12 +37,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(Constants.C_IMAGE, image);
         contentValues.put(Constants.C_ADD_TIMESTAMP, addTimestamp);
         contentValues.put(Constants.C_UPDATE_TIMESTAMP, updateTimestamp);
-        long id = database.insert(Constants.TABLE_NAME, null, contentValues);
+        //long id =
+        database.insert(Constants.TABLE_NAME, null, contentValues);
         database.close();
-        return id;
+        //return id;
     }
 
     public void updateInfo (String id, String name, String mobilePhone, String company, String image, String addTimestamp, String updateTimestamp){
+
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Constants.C_NAME, name);

@@ -50,7 +50,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
         holder.companyTextView.setText(company);
         holder.phoneTextView.setText(phone);
         holder.nameTextView.setText(name);
-
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,8 +68,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
     }
 
     private void editDialog(String position, final String id, final String image, final String name, final String phone, final String company, final String addTimeStamp, final String updateTimeStamp) {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Edit");
+        builder.setTitle("Edit Contact");
         builder.setMessage("Do you want to update contact?");
         builder.setCancelable(false);
         builder.setIcon(R.drawable.ic_edit_button);
@@ -79,13 +79,13 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(context, UpdateContactActivity.class);
-                intent.putExtra("Id", id);
-                intent.putExtra("Image", image);
-                intent.putExtra("Name", name);
-                intent.putExtra("Phone", phone);
-                intent.putExtra("Company", company);
-                intent.putExtra("AddTimeStamp", addTimeStamp);
-                intent.putExtra("UpdateTimeStamp", updateTimeStamp);
+                intent.putExtra("ID", id);
+                intent.putExtra("IMAGE", image);
+                intent.putExtra("NAME", name);
+                intent.putExtra("PHONE", phone);
+                intent.putExtra("COMPANY", company);
+                intent.putExtra("ADDTIMESTAMP", addTimeStamp);
+                intent.putExtra("UPDATETIMESTAMP", updateTimeStamp);
                 intent.putExtra("editMode", true);
                 context.startActivity(intent);
             }
@@ -94,7 +94,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                //NB:
+                dialog.cancel();
             }
         });
 
@@ -107,6 +108,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
     }
 
     class Holder extends RecyclerView.ViewHolder{
+
         ImageView avatarImageView;
         TextView nameTextView, phoneTextView, companyTextView;
         ImageButton editButton;
@@ -120,7 +122,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
             companyTextView = itemView.findViewById(R.id.lblCompany);
             editButton = itemView.findViewById(R.id.editButton);
         }
-
     }
 
 

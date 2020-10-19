@@ -60,7 +60,7 @@ public class AddContactActivity extends AppCompatActivity {
         });
         mFullName = findViewById(R.id.fullNameEditText);
         mPhone = findViewById(R.id.mobilePhoneEditText);
-        mCompany = findViewById(R.id.companyEeditText);
+        mCompany = findViewById(R.id.companyEditText);
         mSaveButton = findViewById(R.id.saveButton);
 
         cameraPermissions = new String[]{

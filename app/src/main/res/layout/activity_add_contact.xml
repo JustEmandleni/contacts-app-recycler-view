@@ -41,7 +41,9 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="40dp"
         android:layout_marginBottom="277dp"
+        android:inputType="phone"
         android:ems="10"
+        android:maxLength="10"
         android:hint="Mobile Phone" />
 
     <EditText
@@ -54,7 +56,7 @@
         android:layout_marginBottom="210dp"
         android:ems="10"
         android:hint="Company"
-        android:inputType="textPersonName" />
+        android:inputType="text" />
 
     <Button
         android:id="@+id/saveButton"

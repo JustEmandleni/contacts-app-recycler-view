@@ -1,6 +1,7 @@
 package com.contacts.my.are.these;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,9 +10,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,14 +24,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+
+import java.util.Calendar;
 
 public class AddContactActivity extends AppCompatActivity {
 
     private ImageView mImage;
-    private EditText mFullName, mPhone, mCompany;
-    private Button mSaveButton;
+
+    private TextView mDisplayDate;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+
+    private EditText mPhone, mCompany;
+    private FloatingActionButton mSaveButton;
     ActionBar actionBar;
 
     private static final int CAMERA_REQUEST_CODE = 100;
@@ -58,10 +67,36 @@ public class AddContactActivity extends AppCompatActivity {
                 imageChooser();
             }
         });
-        mFullName = findViewById(R.id.fullNameEditText);
+
+        mDisplayDate = findViewById(R.id.etDate);
+        mDisplayDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(AddContactActivity.this,
+                        android.R.style.Theme,
+                        mDateSetListener,
+                        year, month, day);
+                dialog.show();
+            }
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month++;
+                String date = dayOfMonth+"/"+month+"/"+year;
+                mDisplayDate.setText(date);
+            }
+        };
+
         mPhone = findViewById(R.id.mobilePhoneEditText);
         mCompany = findViewById(R.id.companyEditText);
-        mSaveButton = findViewById(R.id.saveButton);
+        mSaveButton = findViewById(R.id.floatingSaveButton);
 
         cameraPermissions = new String[]{
                 Manifest.permission.CAMERA,
@@ -84,13 +119,13 @@ public class AddContactActivity extends AppCompatActivity {
         });
 
         actionBar = getSupportActionBar();
-        actionBar.setTitle("Add Contact");
+        actionBar.setTitle("Create Journal Entry");
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     private void retrieveValues() {
-        name = "" + mFullName.getText().toString().trim();
+        name = "" + mDisplayDate.getText().toString().trim();
         phone = "" + mPhone.getText().toString().trim();
         company = "" + mCompany.getText().toString().trim();
         timestamp = "" + System.currentTimeMillis();

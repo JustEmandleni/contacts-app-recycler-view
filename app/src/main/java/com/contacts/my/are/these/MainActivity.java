@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         actionBar = getSupportActionBar();
-        actionBar.setTitle("All Contacts");
+        actionBar.setTitle("Pet Journal");
 
         mRecView = findViewById(R.id.recylcerV);
         databaseHelper = new DatabaseHelper(this);

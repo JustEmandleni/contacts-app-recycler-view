@@ -37,19 +37,19 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
     public void onBindViewHolder(@NonNull final Holder holder, final int position) {
         Model model = arrayList.get(position);
 
-        final String id, image, name, phone, company, addTimeStamp, updateTimeStamp;
+        final String id, image, date, entryType, description, addTimeStamp, updateTimeStamp;
         id = model.getId();
         image = model.getImage();
-        name = model.getName();
-        phone = model.getPhone();
-        company = model.getCompany();
+        date = model.getDate();
+        entryType = model.getEntryType();
+        description = model.getDescription();
         addTimeStamp = model.getAddTimeStamp();
         updateTimeStamp = model.getUpdateTimeStamp();
 
         holder.avatarImageView.setImageURI(Uri.parse(image));
-        holder.companyTextView.setText(company);
-        holder.phoneTextView.setText(phone);
-        holder.nameTextView.setText(name);
+        holder.companyTextView.setText(description);
+        holder.phoneTextView.setText(entryType);
+        holder.nameTextView.setText(date);
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,9 +57,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
                         //"" + position,
                         "" + id,
                         "" + image,
-                        "" + name,
-                        "" + phone,
-                        "" + company,
+                        "" + date,
+                        "" + entryType,
+                        "" + description,
                         "" + addTimeStamp,
                         "" + updateTimeStamp
                 );
@@ -108,7 +108,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
         builder.create().show();
     }
 
-    private void editDialog(final String id, final String image, final String name, final String phone, final String company, final String addTimeStamp, final String updateTimeStamp) {
+    private void editDialog(final String id, final String image, final String date, final String entryType, final String description, final String addTimeStamp, final String updateTimeStamp) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Edit Contact");
@@ -122,9 +122,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
                 Intent intent = new Intent(context, UpdateContactActivity.class);
                 intent.putExtra("ID", id);
                 intent.putExtra("IMAGE", image);
-                intent.putExtra("NAME", name);
-                intent.putExtra("PHONE", phone);
-                intent.putExtra("COMPANY", company);
+                intent.putExtra("DATE", date);
+                intent.putExtra("ENTRY_TYPE", entryType);
+                intent.putExtra("DESCRIPTION", description);
                 intent.putExtra("ADDTIMESTAMP", addTimeStamp);
                 intent.putExtra("UPDATETIMESTAMP", updateTimeStamp);
                 intent.putExtra("editMode", true);

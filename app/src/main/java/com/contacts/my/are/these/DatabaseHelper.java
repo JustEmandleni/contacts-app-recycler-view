@@ -28,12 +28,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insertInfo (String name, String mobilePhone, String company, String image, String addTimestamp, String updateTimestamp){
+    public void insertInfo (String date, String entryType, String description, String image, String addTimestamp, String updateTimestamp){
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Constants.C_NAME, name);
-        contentValues.put(Constants.C_PHONE, mobilePhone);
-        contentValues.put(Constants.C_COMPANY, company);
+        contentValues.put(Constants.C_DATE, date);
+        contentValues.put(Constants.C_ENTRY_TYPE, entryType);
+        contentValues.put(Constants.C_DESCRIPTION, description);
         contentValues.put(Constants.C_IMAGE, image);
         contentValues.put(Constants.C_ADD_TIMESTAMP, addTimestamp);
         contentValues.put(Constants.C_UPDATE_TIMESTAMP, updateTimestamp);
@@ -43,13 +43,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //return id;
     }
 
-    public void updateInfo (String id, String name, String mobilePhone, String company, String image, String addTimestamp, String updateTimestamp){
+    public void updateInfo (String id, String date, String entryType, String description, String image, String addTimestamp, String updateTimestamp){
 
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Constants.C_NAME, name);
-        contentValues.put(Constants.C_PHONE, mobilePhone);
-        contentValues.put(Constants.C_COMPANY, company);
+        contentValues.put(Constants.C_DATE, date);
+        contentValues.put(Constants.C_ENTRY_TYPE, entryType);
+        contentValues.put(Constants.C_DESCRIPTION, description);
         contentValues.put(Constants.C_IMAGE, image);
         contentValues.put(Constants.C_ADD_TIMESTAMP, addTimestamp);
         contentValues.put(Constants.C_UPDATE_TIMESTAMP, updateTimestamp);
@@ -60,9 +60,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<Model> getData (String orderBy){
-        ArrayList<Model> contactList = new ArrayList<>();
+        ArrayList<Model> petEventList = new ArrayList<>();
 
-        String sqlSelectAllQuery = "SELECT * FROM " + Constants.TABLE_NAME + " ORDER BY " + orderBy; //missing ; ?
+        String sqlSelectAllQuery = "SELECT * FROM " + Constants.TABLE_NAME + " ORDER BY " + orderBy; //am i missing a closing ';' ?
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery(sqlSelectAllQuery, null);
 
@@ -71,17 +71,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Model model = new Model(
                         "" + cursor.getInt(cursor.getColumnIndex(Constants.C_ID)),
                         "" + cursor.getString(cursor.getColumnIndex(Constants.C_IMAGE)),
-                        "" + cursor.getString(cursor.getColumnIndex(Constants.C_NAME)),
-                        "" + cursor.getString(cursor.getColumnIndex(Constants.C_PHONE)),
-                        "" + cursor.getString(cursor.getColumnIndex(Constants.C_COMPANY)),
+                        "" + cursor.getString(cursor.getColumnIndex(Constants.C_DATE)),
+                        "" + cursor.getString(cursor.getColumnIndex(Constants.C_ENTRY_TYPE)),
+                        "" + cursor.getString(cursor.getColumnIndex(Constants.C_DESCRIPTION)),
                         "" + cursor.getString(cursor.getColumnIndex(Constants.C_ADD_TIMESTAMP)),
                         "" + cursor.getString(cursor.getColumnIndex(Constants.C_UPDATE_TIMESTAMP))
                 );
-                contactList.add(model);
+                petEventList.add(model);
             }
             while (cursor.moveToNext());
         }
 
-        return contactList;
+        return petEventList;
     }
 }

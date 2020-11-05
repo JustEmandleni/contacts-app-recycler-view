@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         actionButtonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddContactActivity.class);
+                Intent intent = new Intent(MainActivity.this, JournalEntryActivity.class);
                 intent.putExtra("editMode", true);
                 startActivity(intent);
             }

@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">MyPet Journal</string>
+    <string-array name="eventTypes">
+        <item>Visited the Vet</item>
+        <item>Medication Prescription</item>
+        <item>Appointment</item>
+        <item>Selfie</item>
+    </string-array>
 </resources>

@@ -1,14 +1,14 @@
 package com.contacts.my.are.these;
 
 public class Model {
-    String id, image, name, phone, company, addTimeStamp, updateTimeStamp;
+    String id, image, date, entryType, description, addTimeStamp, updateTimeStamp;
 
-    public Model(String id, String image, String name, String phone, String company, String addTimeStamp, String updateTimeStamp) {
+    public Model(String id, String image, String date, String entryType, String description, String addTimeStamp, String updateTimeStamp) {
         this.id = id;
         this.image = image;
-        this.name = name;
-        this.phone = phone;
-        this.company = company;
+        this.date = date;
+        this.entryType = entryType;
+        this.description = description;
         this.addTimeStamp = addTimeStamp;
         this.updateTimeStamp = updateTimeStamp;
     }
@@ -29,28 +29,28 @@ public class Model {
         this.image = image;
     }
 
-    public String getName() {
-        return name;
+    public String getDate() {
+        return date;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getEntryType() {
+        return entryType;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setEntryType(String entryType) {
+        this.entryType = entryType;
     }
 
-    public String getCompany() {
-        return company;
+    public String getDescription() {
+        return description;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getAddTimeStamp() {

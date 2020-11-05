@@ -10,9 +10,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,14 +33,15 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.Calendar;
 
-public class AddContactActivity extends AppCompatActivity {
+public class JournalEntryActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private ImageView mImage;
 
     private TextView mDisplayDate;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
-    private EditText mPhone, mCompany;
+    private Spinner mEntryType; //<-------- spinner
+    private EditText mDescription;
     private FloatingActionButton mSaveButton;
     ActionBar actionBar;
 
@@ -51,13 +55,13 @@ public class AddContactActivity extends AppCompatActivity {
 
     private Uri imageUri;
 
-    private String name, phone, company, timestamp;
+    private String date, entryType, description, timestamp;
     private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_contact);
+        setContentView(R.layout.activity_journal_entry);
 
         mImage = findViewById(R.id.uploadImageView);
         mImage.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +81,7 @@ public class AddContactActivity extends AppCompatActivity {
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(AddContactActivity.this,
+                DatePickerDialog dialog = new DatePickerDialog(JournalEntryActivity.this,
                         android.R.style.Theme,
                         mDateSetListener,
                         year, month, day);
@@ -94,8 +98,16 @@ public class AddContactActivity extends AppCompatActivity {
             }
         };
 
-        mPhone = findViewById(R.id.mobilePhoneEditText);
-        mCompany = findViewById(R.id.companyEditText);
+        mEntryType = findViewById(R.id.entryTypeSpinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.eventTypes,
+                android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mEntryType.setAdapter(adapter);
+        mEntryType.setOnItemSelectedListener(this);
+
+        mDescription = findViewById(R.id.descriptionEditText);
         mSaveButton = findViewById(R.id.floatingSaveButton);
 
         cameraPermissions = new String[]{
@@ -112,9 +124,9 @@ public class AddContactActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //commit changes
-                retrieveValues();
-                Toast.makeText(AddContactActivity.this, "Saved", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(AddContactActivity.this, MainActivity.class));
+                commit();
+                Toast.makeText(JournalEntryActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(JournalEntryActivity.this, MainActivity.class));
             }
         });
 
@@ -124,15 +136,15 @@ public class AddContactActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
-    private void retrieveValues() {
-        name = "" + mDisplayDate.getText().toString().trim();
-        phone = "" + mPhone.getText().toString().trim();
-        company = "" + mCompany.getText().toString().trim();
+    private void commit() {
+        date = "" + mDisplayDate.getText().toString().trim();
+        entryType = "" + mEntryType.getSelectedItem().toString().trim();
+        description = "" + mDescription.getText().toString().trim();
         timestamp = "" + System.currentTimeMillis();
         databaseHelper.insertInfo(
-                "" + name,
-                "" + phone,
-                "" + company,
+                "" + date,
+                "" + entryType,
+                "" + description,
                 "" + imageUri,
                 "" + timestamp,
                 "" + timestamp
@@ -178,7 +190,6 @@ public class AddContactActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-
     private boolean checkStoragePermission(){
         return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED;
@@ -210,7 +221,7 @@ public class AddContactActivity extends AppCompatActivity {
                     boolean storageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
 
                     if(cameraAccepted && storageAccepted) {
-                        chooseFromCamera();
+                        captureImage();
                     }
                     else {
                         Toast.makeText(this, "Please grant camera permission.", Toast.LENGTH_LONG).show();
@@ -248,7 +259,7 @@ public class AddContactActivity extends AppCompatActivity {
                     if (!checkCameraPermission()) {
                         requestCameraPermission();
                     } else {
-                        chooseFromCamera();
+                        captureImage();
                     }
                 }
                 else {
@@ -272,7 +283,7 @@ public class AddContactActivity extends AppCompatActivity {
         startActivityForResult(intent, IMAGE_PICK_GALLERY_CODE);
     }
 
-    private void chooseFromCamera() {
+    private void captureImage() {
         ContentValues contentValues = new ContentValues();
         contentValues.put(MediaStore.Images.Media.TITLE, "Image title");
         contentValues.put(MediaStore.Images.Media.DESCRIPTION, "Image Description");
@@ -281,5 +292,15 @@ public class AddContactActivity extends AppCompatActivity {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, IMAGE_PICK_CAMERA_CODE);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

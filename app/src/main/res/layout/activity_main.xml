@@ -10,9 +10,10 @@
         android:id="@+id/recylcerV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:orientation="vertical"
-        tools:listitem="@layout/row"
-        />
+        tools:listitem="@layout/row" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -25,4 +26,15 @@
         android:backgroundTint="@color/colorPrimary"
         android:clickable="true"
         app:srcCompat="@drawable/ic_add_contact" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="58dp"
+        android:layout_marginLeft="32dp"
+        android:id="@+id/fabCurios"
+        app:srcCompat="@drawable/ic_curious"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_height="wrap_content"/>
+
 </RelativeLayout>

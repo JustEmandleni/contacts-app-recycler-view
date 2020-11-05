@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">MyPet Journal</string>
+    <string name="click_to_set_date_of_birth">Click to set Date of Birth</string>
+    <string name="entry_type">Entry Type</string>
+    <string name="click_to_select_a_date">Click to select a date</string>
+    <string name="date">Date</string>
+    <string name="description">Description</string>
     <string-array name="eventTypes">
         <item>Visited the Vet</item>
         <item>Medication Prescription</item>

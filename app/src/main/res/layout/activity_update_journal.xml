@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".UpdateContactActivity">
+    tools:context=".UpdateJournalActivity">
 
     <ImageView
         android:id="@+id/uImageView"
@@ -28,8 +28,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="215dp"
         android:ems="10"
-        android:hint="Date"
-        android:inputType="textPersonName" />
+        android:hint="@string/date" />
 
     <Spinner
         android:id="@+id/uEntryType"
@@ -40,9 +39,7 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="40dp"
         android:layout_marginBottom="277dp"
-        android:inputType="phone"
-        android:ems="10"
-        android:hint="Mobile Phone" />
+        android:ems="10" />
 
     <EditText
         android:id="@+id/uDescription"
@@ -54,7 +51,7 @@
         android:layout_marginStart="44dp"
         android:layout_marginBottom="121dp"
         android:ems="10"
-        android:hint="Description"
+        android:hint="@string/description"
         android:maxLength="200"
         android:inputType="textMultiLine" />
 

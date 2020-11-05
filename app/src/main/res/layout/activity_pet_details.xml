@@ -4,12 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".JournalEntryActivity">
-
+    tools:context=".PetDetailsActivity">
 
     <ImageView
-        android:id="@+id/uploadImageView"
+        android:id="@+id/pImageView"
         android:layout_width="209dp"
         android:layout_height="119dp"
         android:layout_alignParentStart="true"
@@ -21,33 +19,18 @@
         app:srcCompat="@drawable/ic_upload_image" />
 
     <TextView
-        android:id="@+id/etDate"
+        android:id="@+id/pDate"
         android:layout_width="336dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="40dp"
         android:layout_marginTop="215dp"
-        android:textSize="20sp"
-        android:ems="10"
-        android:hint="@string/click_to_select_a_date"
-        android:inputType="textPersonName" />
-
-    <Spinner
-        android:id="@+id/entryTypeSpinner"
-        android:layout_width="331dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="40dp"
-        android:layout_marginBottom="277dp"
-        android:inputType="phone"
-        android:ems="10"
-        android:hint="@string/entry_type" />
+        android:textSize="30sp"
+        android:hint="@string/click_to_set_date_of_birth" />
 
     <EditText
-        android:id="@+id/descriptionEditText"
+        android:id="@+id/pDescription"
         android:layout_width="296dp"
         android:layout_height="160dp"
         android:layout_alignParentStart="true"
@@ -61,7 +44,7 @@
         android:inputType="textMultiLine" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingSaveButton"
+        android:id="@+id/pSave"
         android:src="@drawable/ic_update"
         android:layout_width="67dp"
         android:layout_height="74dp"

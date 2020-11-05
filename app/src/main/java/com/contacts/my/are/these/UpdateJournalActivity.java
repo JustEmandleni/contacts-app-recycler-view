@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class UpdateContactActivity extends AppCompatActivity {
+public class UpdateJournalActivity extends AppCompatActivity {
 
     ActionBar actionBar;
     private ImageView mImage;
@@ -26,22 +26,26 @@ public class UpdateContactActivity extends AppCompatActivity {
 
     private Uri imageUri;
     private String id, date, entryType, description, addTimeStamp, updateTimeStamp;
-    private boolean editMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_contact);
+        setContentView(R.layout.activity_update_journal);
 
         mImage = findViewById(R.id.uImageView);
-
         mDate = findViewById(R.id.uDate);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.eventTypes,
+                android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mEntryType.setAdapter(adapter);
+
         mEntryType = findViewById(R.id.uEntryType);
         mDescription = findViewById(R.id.uDescription);
         mSaveButton = findViewById(R.id.uSave);
 
         Intent intent = getIntent();
-        editMode = intent.getBooleanExtra("editMode", editMode);
         id = intent.getStringExtra("ID");
         imageUri = Uri.parse(intent.getStringExtra("IMAGE"));
         date = intent.getStringExtra("DATE");
@@ -51,14 +55,15 @@ public class UpdateContactActivity extends AppCompatActivity {
         updateTimeStamp = intent.getStringExtra("UPDATETIMESTAMP");
 
         mDate.setText(date);
-
-        mEntryType.setSelection(getItemIndex(entryType)); // <--- NB will this work ??????
-
+        //mEntryType.setSelection(getItemIndex(entryType)); // <--- NB will this work ??????
         mDescription.setText(description);
-        if (imageUri.toString().equals("null")) {
-            mImage.setImageResource(R.drawable.ic_upload_image);
-        } else {
+
+        if (!imageUri.toString().equals("null")) {
             mImage.setImageURI(imageUri);
+        }
+        else
+            {
+            mImage.setImageResource(R.drawable.ic_upload_image);
         }
 
         mSaveButton.setOnClickListener(new View.OnClickListener() {

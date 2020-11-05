@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">iMyPet Journal Yamu</string>
+    <string name="click_to_select_a_date">Cofa ukhethe iLanga</string>
+    <string name="click_to_set_date_of_birth">Cofa ukhethe iLanga lokuzalwa</string>
+    <string name="date">iLanga</string>
+    <string name="description">iSizathu</string>
+    <string name="entry_type">Uhlobo lwe Entry</string>
+</resources>

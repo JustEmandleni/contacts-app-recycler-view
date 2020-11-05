@@ -14,7 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
-    FloatingActionButton actionButtonAdd;
+    FloatingActionButton actionButtonAdd, curiousActionButton;
     ActionBar actionBar;
     RecyclerView mRecView;
     DatabaseHelper databaseHelper;
@@ -38,6 +38,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, JournalEntryActivity.class);
                 intent.putExtra("editMode", true);
+                startActivity(intent);
+            }
+        });
+
+        curiousActionButton = findViewById(R.id.fabCurios);
+        curiousActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PetDetailsActivity.class);
                 startActivity(intent);
             }
         });

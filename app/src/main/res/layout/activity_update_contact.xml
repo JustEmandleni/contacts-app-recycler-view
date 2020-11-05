@@ -19,8 +19,8 @@
         android:layout_marginEnd="94dp"
         app:srcCompat="@drawable/ic_upload_image" />
 
-    <EditText
-        android:id="@+id/fNameEditText"
+    <TextView
+        android:id="@+id/uDate"
         android:layout_width="336dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -28,11 +28,11 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="215dp"
         android:ems="10"
-        android:hint="Full Name"
+        android:hint="Date"
         android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@+id/mPhoneEditText"
+    <Spinner
+        android:id="@+id/uEntryType"
         android:layout_width="331dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -42,30 +42,32 @@
         android:layout_marginBottom="277dp"
         android:inputType="phone"
         android:ems="10"
-        android:maxLength="10"
         android:hint="Mobile Phone" />
 
     <EditText
-        android:id="@+id/cEditText"
-        android:layout_width="334dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/uDescription"
+        android:layout_width="296dp"
+        android:layout_height="160dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="40dp"
-        android:layout_marginBottom="210dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="44dp"
+        android:layout_marginBottom="121dp"
         android:ems="10"
-        android:hint="Company"
-        android:inputType="textPersonName" />
+        android:hint="Description"
+        android:maxLength="200"
+        android:inputType="textMultiLine" />
 
-    <Button
-        android:id="@+id/sButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/uSave"
+        android:src="@drawable/ic_update"
+        android:layout_width="67dp"
+        android:layout_height="74dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginEnd="163dp"
-        android:layout_marginBottom="109dp"
-        android:text="Save" />
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="58dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:clickable="true" />
 
 </RelativeLayout>

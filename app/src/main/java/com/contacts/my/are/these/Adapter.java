@@ -47,9 +47,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
         updateTimeStamp = model.getUpdateTimeStamp();
 
         holder.avatarImageView.setImageURI(Uri.parse(image));
-        holder.companyTextView.setText(description);
-        holder.phoneTextView.setText(entryType);
-        holder.nameTextView.setText(date);
+        holder.descriptionTextView.setText(description);
+        holder.entryTypeTextView.setText(entryType);
+        holder.dateTextView.setText(date);
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,60 +65,19 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
                 );
             }
         });
-        holder.messageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                messageDialog(holder.nameTextView.getText().toString(), holder.phoneTextView.getText().toString());
-            }
-        });
-
-        holder.phoneButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                phoneCallDialog(holder.nameTextView.getText().toString(), holder.phoneTextView.getText().toString());
-            }
-        });
-
-    }
-
-    private void phoneCallDialog(final String name, final String phone) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Phone Call");
-        builder.setMessage("Do you want to call "+name+"?");
-        builder.setCancelable(false);
-        builder.setIcon(R.drawable.ic_phone_button);
-
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Uri call = Uri.parse("tel:"+phone);
-                Intent intent = new Intent(Intent.ACTION_DIAL, call);
-                context.startActivity(intent);
-            }
-        });
-
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //NB:
-                dialog.cancel();
-            }
-        });
-
-        builder.create().show();
     }
 
     private void editDialog(final String id, final String image, final String date, final String entryType, final String description, final String addTimeStamp, final String updateTimeStamp) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Edit Contact");
-        builder.setMessage("Do you want to update contact?");
-        builder.setCancelable(false);
-        builder.setIcon(R.drawable.ic_edit_button);
-
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//        builder.setTitle("Edit Contact");
+//        builder.setMessage("Do you want to update contact?");
+//        builder.setCancelable(false);
+//        builder.setIcon(R.drawable.ic_edit_button);
+//
+//        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(context, UpdateContactActivity.class);
                 intent.putExtra("ID", id);
                 intent.putExtra("IMAGE", image);
@@ -129,47 +88,18 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
                 intent.putExtra("UPDATETIMESTAMP", updateTimeStamp);
                 intent.putExtra("editMode", true);
                 context.startActivity(intent);
-            }
-        });
-
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //NB:
-                dialog.cancel();
-            }
-        });
-
-        builder.create().show();
-    }
-
-    private void messageDialog(final String name, final String phone) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Create Message ");
-        builder.setMessage("Do you want to message "+name+"?");
-        builder.setCancelable(false);
-        builder.setIcon(R.drawable.ic_message_button);
-
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(Intent.ACTION_SENDTO);
-                intent.setType("vnd.android-dir/mms-sms");
-                intent.setData(Uri.parse("sms:" + phone));
-                context.startActivity(intent);
-            }
-        });
-
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //NB:
-                dialog.cancel();
-            }
-        });
-
-        builder.create().show();
+//            }
+//        });
+//
+//        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                //NB:
+//                dialog.cancel();
+//            }
+//        });
+//
+//        builder.create().show();
     }
 
     @Override
@@ -180,19 +110,17 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
     class Holder extends RecyclerView.ViewHolder{
 
         ImageView avatarImageView;
-        TextView nameTextView, phoneTextView, companyTextView;
-        ImageButton editButton, messageButton, phoneButton;
+        TextView dateTextView, entryTypeTextView, descriptionTextView;
+        ImageButton editButton;
 
         public Holder(@NonNull View itemView) {
             super(itemView);
 
             avatarImageView = itemView.findViewById(R.id.imgAvatar);
-            nameTextView = itemView.findViewById(R.id.lblName);
-            phoneTextView = itemView.findViewById(R.id.lblPhone);
-            companyTextView = itemView.findViewById(R.id.lblCompany);
+            dateTextView = itemView.findViewById(R.id.lblDate);
+            entryTypeTextView = itemView.findViewById(R.id.lblEntryType);
+            descriptionTextView = itemView.findViewById(R.id.lblDescription);
             editButton = itemView.findViewById(R.id.editButton);
-            messageButton = itemView.findViewById(R.id.messageButton);
-            phoneButton = itemView.findViewById(R.id.phoneButton);
         }
     }
 
